@@ -10,11 +10,13 @@ $files = Get-ChildItem -Path $source -File
 foreach ($file in $files) {
     # Perform actions on the current file
     Write-Host "Processing file: $($file.FullName)"
-    # Example: get the length of the file
-    # Write-Host "File size: $($file.Length) bytes"
 
-    Write-Host "$file.FullName"
-
-    ~/github/Real-ESRGAN/realesrgan-ncnn-vulkan.exe -i "$($file.FullName)" -o "$($target + $file.Name)"
+    try {
+        ~/github/Real-ESRGAN/realesrgan-ncnn-vulkan.exe -i "$($file.FullName)" -o "$($target + $file.Name)"    
+    }
+    catch {
+        Write-Host "Error processing file: $($file.FullName). Error: $_"
+    }
+    
 
 }
